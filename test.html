@@ -40,11 +40,27 @@
       controls.dampingFactor = 0.2;
 
       // メッシュを作成
-      const mesh = new THREE.Mesh(
-        new THREE.BoxGeometry(300, 300, 300),
+      const palm = new THREE.Mesh(
+        new THREE.SphereGeometry(300, 32, 16),
         new THREE.MeshNormalMaterial()
       );
-      scene.add(mesh);
+      scene.add(palm);
+
+      // メッシュを作成
+      const finger1 = new THREE.Mesh(
+        new THREE.SphereGeometry(70, 32, 16),
+        new THREE.MeshNormalMaterial()
+      );
+      finger1.position.set(0, 370, 0);
+      scene.add(finger1);
+
+      // メッシュを作成
+      const finger2 = new THREE.Mesh(
+        new THREE.SphereGeometry(70, 32, 16),
+        new THREE.MeshNormalMaterial()
+      );
+      finger2.position.set(370, 0, 0);
+      scene.add(finger2);
 
       // 平行光源
       const directionalLight = new THREE.DirectionalLight(0xFFFFFF);
@@ -57,7 +73,7 @@
 
       /** 星屑を作成します */
       function createStarField() {
-        // 頂点情報を作詞絵
+        // 頂点情報を作成
         const vertices = [];
         for (let i = 0; i < 1000; i++) {
           const x = 3000 * (Math.random() - 0.5);
