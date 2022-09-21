@@ -98,6 +98,26 @@
         scene.add(mesh);
       }
 
+      // 形状データを作成
+      const point = new THREE.BufferGeometry();
+      point.setAttribute('position', new THREE.Float32BufferAttribute(
+        [
+          1000, 1000, 1000,
+          500, 500, 1000,
+        ],
+        3
+      ));
+
+      // マテリアルを作成
+      const pm = new THREE.PointsMaterial({
+        size: 1000,
+        color: 0xff0000,
+      });
+
+      // 物体を作成
+      const p = new THREE.Points(point, pm);
+      scene.add(p);
+
       // マウス座標はマウスが動いた時のみ取得できる
       document.addEventListener('mousemove', (event) => {
         mouseX = event.pageX;
