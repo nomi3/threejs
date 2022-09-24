@@ -1,6 +1,6 @@
 import numpy as np
 
-
+test = np.random.randint(2, size=(24, 24))
 
 enemy_img = [
     [0,0,1,1,1,1,1,1,1,1,1,1,1,1,0,0],
@@ -13,7 +13,7 @@ enemy_img = [
     [0,0,0,1,1,1,1,0,0,0,0,0,1,1,1,1]
 ]
 
-for line in enemy_img:
+for line in test:
     for dot in line:
         if dot == 1:
             print("#", end="")
