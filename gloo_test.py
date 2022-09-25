@@ -1,56 +1,49 @@
-from vispy import app, gloo
-from vispy.gloo import Program
+import sys
 
-vertex = """
-    attribute vec3 color;
-    attribute vec2 position;
-    varying vec4 v_color;
-    void main()
-    {
-        gl_Position = vec4(position, 0.0, 1.0);
-        v_color = vec4(color, 1.0);
-    } """
+from vispy import gloo
+from vispy import app
+import numpy as np
 
-fragment = """
-    varying vec4 v_color;
-    void main()
-    {
-        gl_FragColor = v_color;
-    } """
+VERT_SHADER = """
+attribute vec2 a_position;
+uniform float u_size;
+
+void main() {
+    gl_Position = vec4(a_position, 0.0, 1.0);
+    gl_PointSize = u_size;
+}
+"""
+
+FRAG_SHADER = """
+void main() {
+    gl_FragColor = vec4(1.0, 0.0, 0.0, 1.0);
+}
+"""
 
 
 class Canvas(app.Canvas):
     def __init__(self):
-        super().__init__(
-            size=(512, 512),
-            title='Colored quad',
-            keys='interactive'
-        )
+        app.Canvas.__init__(self, keys='interactive')
 
-        # Build program
-        self.program = Program(vertex, fragment, count=5)
+        ps = self.pixel_scale
 
-        # Set uniforms and attributes
-        self.program['color'] = [
-            (1, 0.2, 0), (0, 1, 0),
-            (0, 0, 1), (1, 1, 0), (0.2, 0.2, 0)
-        ]
-        self.program['position'] = [
-            (-1, -1), (-1, +1),
-            (+1, -1), (+1, +1), (0, 0)
-        ]
-
-        gloo.set_viewport(0, 0, *self.physical_size)
+        self.program = gloo.Program(VERT_SHADER, FRAG_SHADER)
+        data = np.random.uniform(-0.5, 0.5, size=(20, 2))
+        self.program['a_position'] = data.astype(np.float32)
+        self.program['u_size'] = 20.*ps
 
         self.show()
 
-    def on_draw(self, event):
-        gloo.clear()
-        self.program.draw('triangle_strip')
-
     def on_resize(self, event):
-        gloo.set_viewport(0, 0, *event.physical_size)
+        width, height = event.size
+        gloo.set_viewport(0, 0, width, height)
+
+    def on_draw(self, event):
+        gloo.clear('white')
+        self.program.draw('points')
+
 
 if __name__ == '__main__':
-    c = Canvas()
-    app.run()
+    canvas = Canvas()
+    if sys.flags.interactive != 1:
+        app.run()
