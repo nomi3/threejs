@@ -33,13 +33,13 @@ class Canvas(app.Canvas):
         num = 24
         scale = draw_width/num
 
-        print(int(-num/2))
         app.Canvas.__init__(self, size=(width, width), keys='interactive')
 
         ps = self.pixel_scale
 
         self.program = gloo.Program(VERT_SHADER, FRAG_SHADER)
-        data = np.random.randint(int(-num/2), int(num/2), size=(400, 2))/num
+        rng = np.random.default_rng()
+        data = rng.integers(int(-num/2), int(num/2), size=(400, 2))/num
         self.program['a_position'] = data.astype(np.float32)
         self.program['u_size'] = scale*ps
         self.program['color'] = (1.0, 0, 0)
