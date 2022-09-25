@@ -28,16 +28,21 @@ void main() {
 
 class Canvas(app.Canvas):
     def __init__(self):
-        app.Canvas.__init__(self, keys='interactive')
+        width = 480
+        draw_width = width/2
+        num = 24
+        scale = draw_width/num
+
+        print(int(-num/2))
+        app.Canvas.__init__(self, size=(width, width), keys='interactive')
 
         ps = self.pixel_scale
 
         self.program = gloo.Program(VERT_SHADER, FRAG_SHADER)
-        data = np.random.uniform(-0.5, 0.5, size=(400, 2))
-        print(data.astype(np.float32))
+        data = np.random.randint(int(-num/2), int(num/2), size=(400, 2))/num
         self.program['a_position'] = data.astype(np.float32)
-        self.program['u_size'] = 20.*ps
-        self.program['color'] = (1.0, 1.0, 0)
+        self.program['u_size'] = scale*ps
+        self.program['color'] = (1.0, 0, 0)
 
         self.show()
 
