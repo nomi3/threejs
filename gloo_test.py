@@ -60,10 +60,6 @@ class Canvas(app.Canvas):
         gloo.clear('white')
         self.program.draw('points')
 
-    def on_key_press(self, event):
-        if event.text == '1':
-            io.image.imsave('test', self.program)
-
 
 if __name__ == '__main__':
     canvas = Canvas()
