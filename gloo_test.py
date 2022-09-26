@@ -42,7 +42,7 @@ class Canvas(app.Canvas):
         data = rng.integers(int(-num/2), int(num/2), size=(400, 2))/num
         self.program['a_position'] = data.astype(np.float32)
         self.program['u_size'] = scale*ps
-        self.program['color'] = (1.0, 0, 0)
+        self.program['color'] = (1.0, 0, 1.0)
 
         self.show()
 
