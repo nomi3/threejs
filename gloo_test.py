@@ -26,7 +26,6 @@ void main() {
 }
 """
 
-
 class Canvas(app.Canvas):
     def __init__(self):
         width = 480
@@ -36,7 +35,6 @@ class Canvas(app.Canvas):
 
         app.Canvas.__init__(self, size=(width, width), keys='interactive')
         ps = self.pixel_scale
-
 
         # Create vertices
         rng = np.random.default_rng()
