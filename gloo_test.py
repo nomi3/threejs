@@ -2,7 +2,6 @@ import sys
 
 from vispy import gloo
 from vispy import app
-from vispy import io
 import numpy as np
 
 VERT_SHADER = """
