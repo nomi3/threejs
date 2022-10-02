@@ -10,9 +10,11 @@ import svgwrite
 import numpy as np
 
 def basic_shapes(name):
-    width = 480
-    pixel_size = width/24
-    dwg = svgwrite.Drawing(filename=name, debug=True, viewBox="0 0 480 480")
+    base_width = 680
+    draw_width = 480
+    pixel_size = draw_width/24
+    start_up_left = (base_width-draw_width)/2
+    dwg = svgwrite.Drawing(filename=name, debug=True, viewBox=f"0 0 {base_width} {base_width}")
     rng = np.random.default_rng()
     position = rng.integers(0, 24, size=(100, 2)).tolist()
 
@@ -21,7 +23,7 @@ def basic_shapes(name):
             if [x, y] in position:
                 color = rng.integers(0, 256, size=3)
                 fill = f'rgb({color[0]},{color[1]},{color[2]})'
-                dwg.add(dwg.rect(insert=(x*pixel_size, y*pixel_size), size=(pixel_size, pixel_size), fill=fill))
+                dwg.add(dwg.rect(insert=(x*pixel_size+start_up_left, y*pixel_size+start_up_left), size=(pixel_size, pixel_size), fill=fill))
     dwg.save()
 
 
